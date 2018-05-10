@@ -6,7 +6,7 @@ module.exports = {
     output: {
         path: __dirname + '/public',
         filename: './app.js'
-    }
+    },
     devServer: {
         port: 8181,
         contentBase: './public'
