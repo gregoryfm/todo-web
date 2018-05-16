@@ -13,7 +13,7 @@ export default class Todo extends React.Component {
         return (
             <div>
                 <PageHeader name="Tasks" small="Register" />
-                <TodoForm handleAdd={this.handleAdd.bind(this)} />
+                <TodoForm handleAdd={() => this.handleAdd()} />
                 <TodoList />
             </div>
         )
