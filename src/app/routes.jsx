@@ -6,7 +6,7 @@ import {
     hashHistory
 } from 'react-router';
 
-import Todo from '../todo/todo';
+import Todo from '../todo/Todo';
 import About from '../about/about';
 
 export default props => (
