@@ -39,6 +39,18 @@ export default class Todo extends React.Component {
             .then(res => this.refresh());
     }
 
+    handleMarkAsDone( task ) {
+        axios
+            .put(`${URL}/${task._id}`, { ...task, done: true })
+            .then(res => this.refresh());
+    }
+
+    handleMarkAsPending( task ) {
+        axios
+            .put(`${URL}/${task._id}`, { ...task, done: false})
+            .then(res => this.refresh());
+    }
+
     render() {
         return (
             <div>
@@ -49,7 +61,9 @@ export default class Todo extends React.Component {
                     handleChange={event => this.handleChange(event)} />
                 <TodoList 
                     list={this.state.list}
-                    handleRemove={this.handleRemove.bind(this)} />
+                    handleRemove={this.handleRemove.bind(this)}
+                    handleMarkAsDone={this.handleMarkAsDone.bind(this)}
+                    handleMarkAsPending={this.handleMarkAsPending.bind(this)} />
             </div>
         )
     }
