@@ -3,9 +3,6 @@ import Grid from '../layout/Grid';
 import IconButton from '../layout/IconButton';
 
 export default props => (
-
-
-
     <div role="form" className="todoForm">
         <Grid cols="12 9 10">
             <input id='description' 
