@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 
 const rootReducer = combineReducers({
     todo: () => ({
+        description: 'Study Redux',
         list: [{
             _id: 1,
             description: 'Pay credit card',
