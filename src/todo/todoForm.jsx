@@ -1,10 +1,14 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
 import Grid from '../layout/Grid';
 import IconButton from '../layout/IconButton';
+import { changeDescription, search } from './todoActions';
 
-export default props => {
+class TodoForm extends React.Component {
 
-    const keyHandler = (event) => {
+    keyHandler( event ) {
         if (event.key === 'Enter') {
             event.shiftKey ? props.handleSearch() : props.handleAdd();
         } else if ( event.key === 'Escape' ) {
@@ -12,25 +16,35 @@ export default props => {
         }
     }
 
-    return (
-        <div role="form" className="todoForm">
-            <Grid cols="12 9 10">
-                <input id='description'
-                    className='form-control'
-                    placeholder='Add a task'
-                    value={props.description}
-                    onChange={props.handleChange}
-                    onKeyUp={keyHandler} />
-            </Grid>
+    componentWillMount() {
+        this.props.search();
+    }
 
-            <Grid cols="12 3 2">
-                <IconButton style='primary' icon='plus'
-                    onClick={props.handleAdd} />
-                <IconButton style='info' icon='search'
-                        onClick={props.handleSearch} />
-                <IconButton style='default' icon='close'
-                        onClick={props.handleClear} />
-            </Grid>
-        </div>
-    )
+    render() {
+        return (
+            <div role="form" className="todoForm">
+                <Grid cols="12 9 10">
+                    <input id='description'
+                        className='form-control'
+                        placeholder='Add a task'
+                        value={this.props.description}
+                        onKeyUp={this.keyHandler}
+                        onChange={this.props.changeDescription} />
+                </Grid>
+
+                <Grid cols="12 3 2">
+                    <IconButton style='primary' icon='plus'
+                        onClick={this.props.handleAdd} />
+                    <IconButton style='info' icon='search'
+                        onClick={this.props.handleSearch} />
+                </Grid>
+            </div>
+        )
+    }
 }
+
+const mapStateToProps = state => ({ description: state.todo.description});
+const mapDispatchToProps = dispatch =>
+    bindActionCreators({ changeDescription, search }, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(TodoForm);
