@@ -4,13 +4,18 @@ import { bindActionCreators } from 'redux';
 
 import Grid from '../layout/Grid';
 import IconButton from '../layout/IconButton';
-import { changeDescription, search } from './todoActions';
+import { add, changeDescription, search } from './todoActions';
 
 class TodoForm extends React.Component {
 
+    constructor(props) {
+        super(props);
+    }
+
     keyHandler( event ) {
+        const { add, search, description } = this.props;
         if (event.key === 'Enter') {
-            event.shiftKey ? props.handleSearch() : props.handleAdd();
+            event.shiftKey ? search() : add( description );
         } else if ( event.key === 'Escape' ) {
             props.handleClear();
         }
@@ -21,6 +26,9 @@ class TodoForm extends React.Component {
     }
 
     render() {
+
+        const { add, search, description } = this.props;
+
         return (
             <div role="form" className="todoForm">
                 <Grid cols="12 9 10">
@@ -28,15 +36,15 @@ class TodoForm extends React.Component {
                         className='form-control'
                         placeholder='Add a task'
                         value={this.props.description}
-                        onKeyUp={this.keyHandler}
+                        onKeyUp={this.keyHandler.bind(this)}
                         onChange={this.props.changeDescription} />
                 </Grid>
 
                 <Grid cols="12 3 2">
                     <IconButton style='primary' icon='plus'
-                        onClick={this.props.handleAdd} />
+                        onClick={() => add( description )} />
                     <IconButton style='info' icon='search'
-                        onClick={this.props.handleSearch} />
+                        onClick={() => search()} />
                 </Grid>
             </div>
         )
@@ -45,6 +53,6 @@ class TodoForm extends React.Component {
 
 const mapStateToProps = state => ({ description: state.todo.description});
 const mapDispatchToProps = dispatch =>
-    bindActionCreators({ changeDescription, search }, dispatch);
+    bindActionCreators({ changeDescription, search, add }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(TodoForm);
